@@ -2,8 +2,10 @@ package pojo;
 
 public class Product {
 	
-	//POJO to create payloads for post request
-	//Encapsulation[POJO] - Through setters & getters, we can access the variables
+	// POJO for creating payloads for post request
+	// request-response mapping
+	// Encapsulation[POJO] - Through setters & getters, we can access the variables
+	// according to the document- what variables are required- must be private
 	
 	private String title;
 	private double price;
@@ -22,6 +24,7 @@ public class Product {
 		this.category = category;
 		
 	}
+	//getter and setter
 
 	public String getTitle() {
 		return title;

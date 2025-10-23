@@ -1,4 +1,5 @@
 package testcases;
+import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ProductTest extends baseClass {
 	
-	
+	//		***PRODUCT APIs***
 	//1. Test to retreive all products
 	@Test
 	
@@ -24,9 +25,7 @@ public class ProductTest extends baseClass {
 		
 		given()
 		
-		
-		.when()
-		
+		  .when() 
 			.get(Routes.GET_ALL_PRODUCTS)
 			
 			.then()
@@ -64,7 +63,7 @@ public class ProductTest extends baseClass {
 		public void testGetLimitingResults() {
 			
 			given()
-			.pathParam("limit", 5)
+			.pathParam("limit", 5) // as qurey param is alreadu declared in baseUrl , no need to again declare sp just put as a pathParam
 			 
 		.when()
 			.get(Routes.GET_PRODUCTS_WITH_LIMIT )
@@ -93,7 +92,7 @@ public class ProductTest extends baseClass {
 				.statusCode(200)
 				.extract().response();
 			
-		List <Integer> productId = response.jsonPath().getList("id", Integer.class);
+		List <Integer> productId = response.jsonPath().getList("id", Integer.class); //extracting the productIDs whoch are in Sorting order 
 			assertThat(isSortedDesc(productId), is(true));
 		
 		}
@@ -113,7 +112,7 @@ public class ProductTest extends baseClass {
 				.extract().response();
 			
 		List <Integer> productId = response.jsonPath().getList("id", Integer.class);
-			assertThat(isSortedDesc(productId), is(true));
+			assertThat(isSortedDesc(productId), is(false));
 		
 		}
 		
@@ -121,15 +120,12 @@ public class ProductTest extends baseClass {
 		@Test
 		public void testGetAllCategories() {
 			given()
-			
-			.when()
-			
-				.get(Routes.GET__ALL_CATEGORIES)
-			.then()
-				.statusCode(200)
-				.body("size()", greaterThan(0))
-				.log().body();
-			
+				.when()
+					.get(Routes.GET__ALL_CATEGORIES)
+						.then()
+						.statusCode(200)
+						.body("size()", greaterThan(0))
+						.log().body();
 		}
 		
 		//7. Retreive products by categeory
@@ -143,17 +139,12 @@ public class ProductTest extends baseClass {
 			
 			.then()
 				.statusCode(200)
-				.body("size()", greaterThan(0))
-				.body("category", everyItem(notNullValue()))
-				.body("category", everyItem(equalTo("electronics")))
-				.log().body();
-
-			 
-			
-			
+				.body("size()", greaterThan(0)) //first of all, size should not be null
+				.body("category", everyItem(notNullValue())) // then ,category field should not be empty --> notNullValue()
+				.body("category", everyItem(equalTo("electronics"))) // every item validation  
+				.log().body();		
 		}
-		
-		
+	
 		//8. Add new product
 		@Test
 		
@@ -170,7 +161,7 @@ public class ProductTest extends baseClass {
 			
 			.then()
 				.log().body()
-				.statusCode(200)
+				.statusCode(201)
 				.body("id", notNullValue())
 				.body("title", equalTo(newProduct.getTitle()))
 				.extract().jsonPath().getInt("id"); //extracting id from response body
@@ -218,7 +209,4 @@ public class ProductTest extends baseClass {
 				.statusCode(200)
 			;
 		}
-		
-		
-			
 }

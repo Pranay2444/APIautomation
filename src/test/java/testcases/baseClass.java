@@ -15,12 +15,17 @@ import utils.ConfigReader;
 
 public class baseClass {
 	
-	ConfigReader confread;
+	ConfigReader confread;// to pass the data to multiple TCs
+	
+	
+	//for logging --> no need to use log().body() in every req
+	RequestLoggingFilter requestLoggingFilter;
+	ResponseLoggingFilter responseLoggingFilter;
 	
 	@BeforeClass
 	public void setup() throws FileNotFoundException 
 	{
-		RestAssured.baseURI= Routes.BASE_URL; //RA static variable
+		RestAssured.baseURI= Routes.BASE_URL; //RA static variable , commonly required by every tests
 		
 		confread = new ConfigReader();
 		
@@ -34,6 +39,7 @@ public class baseClass {
 		RestAssured.filters(requestLoggingFilter, responseLoggingFilter);
 		
 	}
+	
 	//Helper method to check if a list is in Desc order 
 		//Test to retreive products in ASC order
 			
@@ -44,10 +50,10 @@ public class baseClass {
 				{
 					if(list.get(i) < list.get(i+1))
 					{
-						return false;
+						return false; //not desc order
 					}
 				}
-				return true;
+				return true; // desc order
 				
 			}
 			 

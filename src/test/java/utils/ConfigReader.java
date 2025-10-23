@@ -28,7 +28,7 @@ public class ConfigReader {
 	return	prop.getProperty(key);
 		
 	}
-	
+	//for numeric type of data - using wrapper class Intger.parseInt
 	public int getIntProperty(String key) {
 		return Integer.parseInt(prop.getProperty(key));
 	}
